@@ -68,7 +68,7 @@ async function loginController(req, res) {
       console.log(User);
       let validUser = await bcrypt.compare(req.body.password, User.password);
       const token = jwt.sign({ email: req.body.email },secret);
-      console.log(token);
+      //console.log(token);
       //console.log(validUser);
       // console.log(req.body.password,User.password,hashPassword);
       if (validUser && User) {
@@ -182,19 +182,24 @@ async function forgotPassword(req, res) {
 
         const User = await user.findOne({email:req.body.email})
 
-        if(User){
-            let newString = randomString.generate();
-            const data = await user.updateOne({email:req.body.email},{$set:{token:newString}})
-            res.status(200).json({success:true, message:" check email first"})
-        }
-        else{
-            res.status(404).json({
+        if(!User){
+          res.status(404).json({
                 error: true,
                 success: false,
                 message:" user not found"
-            })
-        }
-    
+          })
+         }
+         let token = randomString.generate();
+         let generatedURL = "localhost:3000/reset-password/?token=12abcdes";
+         res.status(200).json({
+          error: false,
+          success: true,
+          message: "User reset password has been generated successfully",
+          generatedURL,
+         })
+        //    let newString = randomString.generate();
+        //     const data = await user.updateOne({email:req.body.email},{$set:{token:newString}})
+        //     res.status(200).json({success:true, message:" check email first"})
     } catch (error) {
         res.status(500).json({
             message:" unable to forgot password",
