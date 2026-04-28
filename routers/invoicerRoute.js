@@ -6,6 +6,7 @@ const {createInvoice} = require("../controller/invoiceController")
 {/**
     endpoint - "v1/create/invoice" this is invoice endpoint through we crerate invoice
     */}
+   //nvoiceRoute.post("/test");
 invoiceRoute.post("/v1/create/invoice",createInvoice);
 
 module.exports = invoiceRoute;

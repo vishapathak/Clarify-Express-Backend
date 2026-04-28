@@ -53,7 +53,7 @@ const invoiceSchema = new mongoose.Schema({
         },
         gst:{
             type:string,
-            required:true,
+            required:false,
             trim: true
         }
     },
@@ -103,7 +103,7 @@ const invoiceSchema = new mongoose.Schema({
             trim : true
         },
         taxPercentage:{
-            type:string,
+         type:string,
             required:true,
             trim: true
         },
@@ -137,7 +137,7 @@ const invoiceSchema = new mongoose.Schema({
             trim: true
         },
         discount:{
-            type:string,
+             type:string,
             required:true,
             trim: true
         }
