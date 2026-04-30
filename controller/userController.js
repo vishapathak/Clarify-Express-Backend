@@ -67,9 +67,6 @@ async function loginController(req, res) {
       console.log(User);
       let validUser = await bcrypt.compare(req.body.password, User.password);
       const token = jwt.sign({ email: req.body.email },secret);
-      //console.log(token);
-      //console.log(validUser);
-      // console.log(req.body.password,User.password,hashPassword);
       if (validUser && User) {
         res.status(200).json({
           success: true,

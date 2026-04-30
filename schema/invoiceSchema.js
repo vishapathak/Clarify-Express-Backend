@@ -3,8 +3,10 @@ const { default: mongoose } = require('mongoose');
 const {string} = require('zod');
 const invoiceSchema = new mongoose.Schema({
     user_id:{
+        user_id:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
+        }
     },
     businessDetail:{
         businessName:{
