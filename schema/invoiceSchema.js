@@ -26,12 +26,12 @@ const invoiceSchema = new mongoose.Schema({
         },
         email:{
             type:string,
-            require:true,
+            require: true,
             trim:true
         },
         gst:{
             type:string,
-            required:false,
+            require: false,
             trim:true
         }
     },
@@ -95,11 +95,6 @@ const invoiceSchema = new mongoose.Schema({
             required:true,
             trim: true
         },
-        totalprice:{
-            type:string,
-            required:true,
-            trim: true
-        }
     },
     taxDetail:{
        gst:{

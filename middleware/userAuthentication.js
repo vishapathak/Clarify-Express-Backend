@@ -3,7 +3,7 @@ const user = require("../schema/userSchema");
 const secret = process.env.SECRET;
 async function authenticate(req, res, next) {
  try {
-     const token = req.header("auth");
+     const token = req.header("auth");// token me auth ke andar ki value hai 
   if (token === undefined){ 
     return res.status(400).json({
       error: false,

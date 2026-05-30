@@ -23,10 +23,10 @@ const userSchema = zo.object({
 async function Registercontroller(req, res) {
   try {
     const body = req.body;
-    const validate = userSchema.parse(body);
+    const validate = userSchema.parse(body);//parse compair kar ne liye use hota hai
     const hashPassword = await bcrypt.hash(body.password, 10);
     validate.password = hashPassword;
-    const User = await user.create(validate);
+    const User = await user.create(validate);// yeh validate me jo data hai us ko save kare gi create mongooser ki method hai jo data ko save kar ti hai DB ME 
     {
       /**
     // yeh already exist vala part hai 
@@ -64,7 +64,6 @@ async function loginController(req, res) {
   try {
     if (req.body.password && req.body.email) {
       let User = await user.findOne({ email: req.body.email });
-      console.log(User);
       let validUser = await bcrypt.compare(req.body.password, User.password);
       const token = jwt.sign({ email: req.body.email },secret);
       if (validUser && User) {

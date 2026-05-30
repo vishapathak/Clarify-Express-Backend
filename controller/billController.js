@@ -1,53 +1,17 @@
-const bill = require("../schema/billSchema")
 const zo = require("zod");
-
-const billSchema = zo.object({
-  user_id: zo.object({
-    user_id: zo.string(),
-  }),
-  businessDetail: zo.object({
-    businessName: zo.string(),
-    address: zo.string(),
-    gst: zo.string(),
-    contact: zo.string().regex(/^\+?[0-9\s-]{10,15}$/, {
-      message: "only number allowed",
-    }),
-
-    email: zo.string().email({
-      message: "Please enter valid email formate",
-    }),
-  }),
-
+const bill = require("../schema/billSchema");
+const { AllSchema } = require("../utils/validation");
+const billValidateSchema = AllSchema.extend({
   bill: zo.object({
     billNumber: zo.string(),
-    billDate: zo.string()
-  }),
-  product: zo.object({
-    productName: zo.string(),
-    quantity: zo.string(),
-    perUnit: zo.string(),
-    totalprice: zo.string(),
-  }),
-  taxDetail: zo.object({
-    gst: zo.string(),
-    taxPercentage: zo.string(),
-    totalTax: zo.string(),
-  }),
-  payment: zo.object({
-    bankdetail: zo.string(),
-    paymentMethod: zo.string(),
-  }),
-  totalprice: zo.object({
-    subtotal: zo.string(),
-    afterTax: zo.string(),
-    discount: zo.string(),
-  }),
-});
+    billDate: zo.string(),
+  })
+})
 
 async function createbill(req, res) {
   try {
     const billBody = req.body;
-    const validate = billSchema.parse(billBody);
+    const validate = billValidateSchema.parse(billBody);
     const Bill = await bill.create(validate);
 
     res.status(201).json({
@@ -62,8 +26,30 @@ async function createbill(req, res) {
   }
 }
 
-async function getBillDetail (req, res){
-    
+async function getBillDetail(req,res){
+const billID = req.query.id;
+console.log(billID,"bill id yeh hai")
+if(!billID){
+   return res.status(404).json({
+    error: true,
+    success: false,
+    message: "Bill id not found",
+   });
 }
-
-module.exports = {createbill}
+const Bill = await bill.findById(billID);
+if(!Bill){
+  return res.status(404).json({
+    error: true,
+    success: false,
+    message: "Bill not matched ",
+  })
+}
+res.status(200).json({
+  error: false,
+  success: true,
+  message: "Bill found Successfully",
+  data: Bill,
+})
+}
+module.exports = {createbill, getBillDetail}
+ 
