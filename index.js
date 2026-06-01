@@ -3,6 +3,7 @@ const express = require("express");
 const route = require("./routers/userRoute");
 const invoiceRoute = require("./routers/invoicerRoute");
 const billRouter = require("./routers/billRouter");
+const quatationRouter = require("./routers/quatationRoute")
 const DB = require("./connection/dbconnect");
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(route);
 app.use(invoiceRoute);
 app.use(billRouter);
+app.use(quatationRouter);
 
 DB();
 port = process.env.PORT || 5000;

@@ -5,8 +5,8 @@ const billValidateSchema = AllSchema.extend({
   bill: zo.object({
     billNumber: zo.string(),
     billDate: zo.string(),
-  })
-})
+  }),
+});
 
 async function createbill(req, res) {
   try {
@@ -26,30 +26,36 @@ async function createbill(req, res) {
   }
 }
 
-async function getBillDetail(req,res){
-const billID = req.query.id;
-console.log(billID,"bill id yeh hai")
-if(!billID){
-   return res.status(404).json({
-    error: true,
-    success: false,
-    message: "Bill id not found",
-   });
+async function getBillDetail(req, res) {
+  try {
+    const billID = req.query.id;
+    console.log(billID, "bill id yeh hai");
+    if (!billID) {
+      return res.status(404).json({
+        error: true,
+        success: false,
+        message: "Bill id not found",
+      });
+    }
+    const Bill = await bill.findById(billID);
+    if (!Bill) {
+      return res.status(404).json({
+        error: true,
+        success: false,
+        message: "Bill not matched ",
+      });
+    }
+    res.status(200).json({
+      error: false,
+      success: true,
+      message: "Bill found Successfully",
+      data: Bill,
+    });
+  } catch (error) {
+    sres.status(500).json({
+      message: "Error in generating bill",
+      error,
+    });
+  }
 }
-const Bill = await bill.findById(billID);
-if(!Bill){
-  return res.status(404).json({
-    error: true,
-    success: false,
-    message: "Bill not matched ",
-  })
-}
-res.status(200).json({
-  error: false,
-  success: true,
-  message: "Bill found Successfully",
-  data: Bill,
-})
-}
-module.exports = {createbill, getBillDetail}
- 
+module.exports = { createbill, getBillDetail };
