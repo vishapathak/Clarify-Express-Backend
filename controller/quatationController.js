@@ -10,21 +10,22 @@ signature: zo.string(),
 conditions:zo.string(),
 })
 
-async function createQuatation(req, res){
+async function createQuatation(req, res){//
     try {
         const quatationBody = req.body;
         const validate = quatationValidateSchema.parse(quatationBody);
-        const quatation = await quatation.create(validate);
+        const Quatation = await quatation.create(validate);
         res.status(201).json({
             error: false,
             success: true,
-            data : quatation,
+            data : Quatation,
             message: "Quatation is created successfully",
         })
     } catch (error) {
+        console.log("this is error",error);
             res.status(500).json({
-            error: false,
-            success: true,
+            error: true,
+            success: false,
             message: "Error while creating a Quatation",
             error,
         })
@@ -40,7 +41,7 @@ async function getQuatationDetail(req, res) {
       message: "QuatationID not found",
     });
   }
-  const Quatation = await quatation.findById(invoiceId);
+  const Quatation = await quatation.findById(quatationId);
   if (!Quatation) {
     return res.status(404).json({
       error: true,
@@ -52,7 +53,7 @@ async function getQuatationDetail(req, res) {
     success: true,
     error: false,
     message: "Quatation found successfully",
-    data: Invoice,
+    data: Quatation,
   });
 }
 
